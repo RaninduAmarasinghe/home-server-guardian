@@ -1,3 +1,8 @@
 spring:
   application:
     name: home-server-guardian
+
+telegram:
+  bot:
+    token:
+    chat-id: 1020951426

@@ -20,6 +20,7 @@ public class SystemMetricsService {
     private final MetricsEngine metricsEngine;
     private final DecisionEngine decisionEngine;
     private final ActionEngine actionEngine;
+    private final TelegramService telegramService;
 
     public SystemMetrics getSystemMetrics() {
         double cpuTemp = metricsEngine.getCpuTemperature();
@@ -39,11 +40,21 @@ public class SystemMetricsService {
     }
 
     public String executeSystemAction() {
-        SystemAction SystemAction = getSystemAction();
-        return SystemActionExecutor.executeAction(SystemAction.getAction());
+
+        SystemStatus status = getSystemStatus();
+        SystemAction action = getSystemAction();
+
+        telegramService.sendMessageWithButtons(
+                "⚠️ System Alert\n\n" +
+                        "Status: " + status.getStatus() + "\n" +
+                        "Message: " + status.getMessage() + "\n\n" +
+                        "Choose action:"
+        );
+
+        return "Telegram notification sent";
     }
 
-    private double getCpuTeperature() {
+    private double getCpuTemperature() {
         try{
             Process process = Runtime.getRuntime().exec("sysctl -a | grep -i temperature");
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -51,7 +62,7 @@ public class SystemMetricsService {
             String line;
             while((line = reader.readLine()) != null){
                 if(line.toLowerCase().contains("temperature")){
-                    String temp = line.replaceAll("[0-9]","");
+                    String temp = line.replaceAll("[^0-9.]", "");
                     if (!temp.isEmpty()){
                         return Double.parseDouble(temp);
                     }
