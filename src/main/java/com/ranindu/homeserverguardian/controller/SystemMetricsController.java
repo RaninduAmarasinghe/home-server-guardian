@@ -28,4 +28,9 @@ public class SystemMetricsController {
     public SystemAction getAction() {
         return systemMetricsService.getSystemAction();
     }
+
+    @GetMapping("/execute")
+    public String executeAction() {
+        return systemMetricsService.executeSystemAction();
+    }
 }
