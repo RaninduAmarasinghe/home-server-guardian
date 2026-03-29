@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class SystemMetrics {
-    private double cpuTemperature;
-    private double diskUsagePercentage;
+public class SystemStatus {
+    private String status;
+    private String message;
 }

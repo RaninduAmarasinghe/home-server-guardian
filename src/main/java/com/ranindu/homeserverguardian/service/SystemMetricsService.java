@@ -1,21 +1,33 @@
 package com.ranindu.homeserverguardian.service;
 
+import com.ranindu.homeserverguardian.engine.DecisionEngine;
+import com.ranindu.homeserverguardian.engine.MetricsEngine;
 import com.ranindu.homeserverguardian.model.SystemMetrics;
+import com.ranindu.homeserverguardian.model.SystemStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 @Service
+@RequiredArgsConstructor
 public class SystemMetricsService {
 
-    public SystemMetrics getSystemMetrics() {
-        double cpuTemp = getCpuTeperature();
-        double diskUsage = getDiskUsage();
+    private final MetricsEngine metricsEngine;
+    private final DecisionEngine decisionEngine;
 
-        return SystemMetrics.(cpuTemp, diskUsage);
+    public SystemMetrics getSystemMetrics() {
+        double cpuTemp = metricsEngine.getCpuTemperature();
+        double diskUsage = metricsEngine.getDiskUsage();
+
+        return new SystemMetrics(cpuTemp, diskUsage);
     }
 
+    public SystemStatus getSystemStatus() {
+        SystemMetrics metrics = getSystemMetrics();
+        return decisionEngine.analyze(metrics);
+    }
     private double getCpuTeperature() {
         try{
             Process process = Runtime.getRuntime().exec("sysctl -a | grep -i temperature");
