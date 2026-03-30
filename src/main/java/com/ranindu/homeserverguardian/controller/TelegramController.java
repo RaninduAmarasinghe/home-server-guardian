@@ -16,10 +16,14 @@ public class TelegramController {
 
     @PostMapping("/telegram/webhook")
     public void handleUpdate(@RequestBody Map<String,Object> update){
+    System.out.println("UPDATE RECEIVED");
+
         if(update.containsKey("callback_query")){
 
             Map<String, Object> callback = (Map<String, Object>) update.get("callback_query");
             String data = (String) callback.get("data");
+
+            System.out.println("Button clicked: " + data);
 
             if("APPROVE".equals(data)){
                 systemMetricsService.executeSystemAction();

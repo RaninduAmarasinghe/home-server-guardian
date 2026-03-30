@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 public class MetricsEngine {
 
     public double getDiskUsage() {
-        return 0;
+        return 91;
     }
     public double getCpuTemperature(){
-        return 0;
+        return 82;
     }
 }

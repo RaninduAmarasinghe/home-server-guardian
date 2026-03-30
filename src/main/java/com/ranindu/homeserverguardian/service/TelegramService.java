@@ -2,6 +2,9 @@ package com.ranindu.homeserverguardian.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,7 +24,10 @@ public class TelegramService {
 
         String url = "https://api.telegram.org/bot" + botToken + "/sendMessage";
 
-        String json = "{"
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String body = "{"
                 + "\"chat_id\":\"" + chatId + "\","
                 + "\"text\":\"" + message + "\","
                 + "\"reply_markup\":{"
@@ -32,7 +38,9 @@ public class TelegramService {
                 + "}"
                 + "}";
 
-        restTemplate.postForObject(url, json, String.class);
+        HttpEntity<String> request = new HttpEntity<>(body, headers);
+
+        restTemplate.postForObject(url, request, String.class);
     }
 
 }

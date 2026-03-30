@@ -43,13 +43,18 @@ public class SystemMetricsService {
 
         SystemStatus status = getSystemStatus();
         SystemAction action = getSystemAction();
+        SystemMetrics metrics = getSystemMetrics();
 
-        telegramService.sendMessageWithButtons(
+        String message =
                 "⚠️ System Alert\n\n" +
+                        "🔥 CPU Temp: " + metrics.getCpuTemperature() + "°C\n" +
+                        "💾 Disk Usage: " + metrics.getDiskUsagePercentage() + "%\n\n" +
                         "Status: " + status.getStatus() + "\n" +
                         "Message: " + status.getMessage() + "\n\n" +
-                        "Choose action:"
-        );
+                        "Proposed Action: " + action.getAction() + "\n\n" +
+                        "Choose action:";
+
+        telegramService.sendMessageWithButtons(message);
 
         return "Telegram notification sent";
     }

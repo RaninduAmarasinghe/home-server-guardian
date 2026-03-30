@@ -4,5 +4,5 @@ spring:
 
 telegram:
   bot:
-    token:
+    token: 8519624284:AAGJZoup2j2-7Bf6rqx_bJMvnDh6TmlNAmc
     chat-id: 1020951426

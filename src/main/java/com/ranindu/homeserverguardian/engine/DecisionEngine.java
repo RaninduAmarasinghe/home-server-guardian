@@ -8,6 +8,14 @@ import org.springframework.stereotype.Component;
 public class DecisionEngine {
 
     public SystemStatus analyze(SystemMetrics systemMetrics) {
+      if (systemMetrics.getCpuTemperature() > 80 && systemMetrics.getCpuTemperature() > 90 ) {
+          return new SystemStatus(
+                  "CRITICAL",
+                  "CPU temperature is high and disk is almost full"
+          );
+      }
+
+
 
         if(systemMetrics.getCpuTemperature () > 80 ){
             return new SystemStatus(
