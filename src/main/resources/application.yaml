@@ -4,5 +4,10 @@ spring:
 
 telegram:
   bot:
-    token:
+    token: 8519624284:AAGJZoup2j2-7Bf6rqx_bJMvnDh6TmlNAmc
     chat-id: 1020951426
+
+ai:
+  ollama:
+    url: http://localhost:11434/api/generate
+    model: llama3.2

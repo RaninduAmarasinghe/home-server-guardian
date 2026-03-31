@@ -8,6 +8,7 @@ import com.ranindu.homeserverguardian.model.SystemMetrics;
 import com.ranindu.homeserverguardian.model.SystemStatus;
 import com.ranindu.homeserverguardian.util.SystemActionExecutor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStreamReader;
@@ -17,6 +18,7 @@ import java.io.BufferedReader;
 @RequiredArgsConstructor
 public class SystemMetricsService {
 
+    private final AIService aiService;
     private final MetricsEngine metricsEngine;
     private final DecisionEngine decisionEngine;
     private final ActionEngine actionEngine;
@@ -41,22 +43,24 @@ public class SystemMetricsService {
 
     public String executeSystemAction() {
 
-        SystemStatus status = getSystemStatus();
-        SystemAction action = getSystemAction();
         SystemMetrics metrics = getSystemMetrics();
 
+        String prompt =
+                "System Metrics:\n" +
+                        "CPU Temp: " + metrics.getCpuTemperature() + "\n" +
+                        "Disk Usage: " + metrics.getDiskUsagePercentage() + "\n\n" +
+                        "Analyze system and give status, message, and action.";
+
+        String aiResponse = aiService.askAI(prompt);
+
         String message =
-                "⚠️ System Alert\n\n" +
-                        "🔥 CPU Temp: " + metrics.getCpuTemperature() + "°C\n" +
-                        "💾 Disk Usage: " + metrics.getDiskUsagePercentage() + "%\n\n" +
-                        "Status: " + status.getStatus() + "\n" +
-                        "Message: " + status.getMessage() + "\n\n" +
-                        "Proposed Action: " + action.getAction() + "\n\n" +
+                "🤖 AI Analysis\n\n" +
+                        aiResponse + "\n\n" +
                         "Choose action:";
 
         telegramService.sendMessageWithButtons(message);
 
-        return "Telegram notification sent";
+        return "AI Telegram notification sent";
     }
 
     private double getCpuTemperature() {
