@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class SystemMetrics {
+    private double cpuUsage;
     private double cpuTemperature;
-    private double diskUsagePercentage;
+    private double diskUsage;
 }

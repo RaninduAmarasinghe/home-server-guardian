@@ -24,7 +24,7 @@ public class DecisionEngine {
             );
         }
 
-        if(systemMetrics.getDiskUsagePercentage() > 90){
+        if(systemMetrics.getDiskUsage() > 90){
             return new SystemStatus(
               "WARNING",
               "Disk usage is almost full"
