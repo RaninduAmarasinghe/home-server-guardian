@@ -30,6 +30,14 @@ This project combines Spring Boot, AI (Ollama), and Telegram Bot integration to 
 
 ---
 
+## 🏗️ Architecture
+
+### 🔍 System Flow Diagram
+
+<p align="center">
+  <img src="assets/architecture.png" width="800"/>
+</p>
+
 ## 🏗️ Tech Stack
 
 - Java 17+
